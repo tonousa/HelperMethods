@@ -221,6 +221,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\CreatePerson.cshtml" />
+    <Content Include="Views\Home\DisplayPerson.cshtml" />
+    <Content Include="Views\Home\CreatePerson - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
