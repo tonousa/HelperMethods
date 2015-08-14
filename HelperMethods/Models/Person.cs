@@ -8,18 +8,14 @@ using System.Web.Mvc;
 
 namespace HelperMethods.Models
 {
-    [DisplayName("New Person")]
-    public class Person
+    [MetadataType(typeof(PersonMetadata))]
+    public partial class Person
     {
-        //[HiddenInput(DisplayValue=false)]
-        [ScaffoldColumn(false)]
         public int PersonId { get; set; }
-        [Display(Name="First")]
         public string FirstName {get; set;}
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public Address HomeAddress {get; set;}
-        [DisplayName("Approved")]
         public bool IsApproved {get; set;}
         public Role Role {get; set;}
     }

@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="Infrastructure\CustomHelpers.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\MetaData\PersonMetadata.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
