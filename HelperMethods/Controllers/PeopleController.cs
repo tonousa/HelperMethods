@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading;
 
 namespace HelperMethods.Controllers
 {
@@ -22,23 +23,72 @@ namespace HelperMethods.Controllers
             return View();
         }
 
-        public ActionResult GetPeople()
+        public ActionResult GetPeople(string selectedRole = "All")
         {
-            return View(personData);
+            return View((object)selectedRole);
         }
 
-        [HttpPost]
-        public ActionResult GetPeople(string selectedRole)
+        public ActionResult GetPeopleData(string selectedRole = "All")
         {
-            if (selectedRole == null || selectedRole == "All")
+            //Thread.Sleep(4000);
+            //return PartialView(GetData(selectedRole));
+
+            IEnumerable<Person> data = personData;
+            if (selectedRole != "All")
             {
-                return View(personData);
+                Role selected = (Role)Enum.Parse(typeof(Role), selectedRole);
+                data = personData.Where(p => p.Role == selected);
+            }
+            if (Request.IsAjaxRequest())
+            {
+                var formattedData = data.Select(p => new
+                {
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Role = Enum.GetName(typeof(Role), p.Role)
+                });
+                return Json(formattedData, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                Role selected = (Role)Enum.Parse(typeof(Role), selectedRole);
-                return View(personData.Where(p => p.Role == selected));
+                return PartialView(data);
             }
         }
+
+        //private IEnumerable<Person> GetData(string selectedRole)
+        //{
+        //    IEnumerable<Person> data = personData;
+        //    if (selectedRole != "All")
+        //    {
+        //        Role selected = (Role)Enum.Parse(typeof(Role), selectedRole);
+        //        data = personData.Where(p => p.Role == selected);
+        //    }
+        //    return data;
+        //}
+
+        //public JsonResult GetPeopleDataJson(string selectedRole = "All")
+        //{
+        //    var data = GetData(selectedRole).Select(
+        //        p => new { 
+        //            FirstName = p.FirstName,
+        //            LastName = p.LastName,
+        //            Role =  Enum.GetName(typeof(Role), p.Role)       });
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+        //}
+
+
+        //[HttpPost]
+        //public ActionResult GetPeople(string selectedRole)
+        //{
+        //    if (selectedRole == null || selectedRole == "All")
+        //    {
+        //        return View(personData);
+        //    }
+        //    else
+        //    {
+        //        Role selected = (Role)Enum.Parse(typeof(Role), selectedRole);
+        //        return View(personData.Where(p => p.Role == selected));
+        //    }
+        //}
     }
 }
